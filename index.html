@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en-us">
+	<head>
+		<title>ElevenRox Test Harness</title>
+		<link rel="stylesheet" type="text/css" href="uniform/css/uniform.default.css" />
+		<link rel="stylesheet" type="text/css" href="test.css" />
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script type="text/javascript" language="Javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+		<script type="text/javascript" language="Javascript" src="jsonreport.js"></script>
+		<script type="text/javascript" language="Javascript" src="test.js"></script>
+		<script type="text/javascript" language="Javascript" src="uniform/jquery.uniform.js"></script>
+		<script type="text/javascript" language="Javascript" src="hex_tenrox.js"></script>
+		
+		
+		
+		<script type="text/javascript" language="Javascript" src="models/Timesheet.js"></script>
+		<script type="text/javascript" language="Javascript" src="models/Assignment.js"></script>
+		<script type="text/javascript" language="Javascript" src="models/TimeEntry.js"></script>
+		<script type="text/javascript" language="Javascript" src="controllers/timesheet.js"></script>
+		<script type="text/javascript" language="Javascript" src="views/timesheet_view.js"></script>
+
+
+
+		<script type="text/javascript">
+			jQuery(function(){
+				jQuery("input, textarea, select, button").uniform();
+			});
+		</script>
+	</head>
+	<body>
+		<div id="top">
+			<div id="mask"></div>
+			<h1>ElevenRox Test Harness</h1>
+			<div id="top_lnks" class="separator">
+				<div id="reset_lnk" style="display:none;"><a href="javascript:reset()">clear</a> |</div>
+				<div id="login_lnk" style="display:inline"><a href="javascript:test_login();">login</a> |</div>
+				<div id="get_time_lnk" style="display:inline"><a href="javascript:refresh('go_timesheet');">get time</a></div>
+				<div id="json_lnk" style="display:none;"><a href="javascript:showJson()">view raw json</a></div>
+			</div>
+			<div id="top_body">
+				<div id="show-json">
+					<h3>This request's raw json</h3>
+					<textarea></textarea>
+					<button onclick="doc.body.className=null;">Close Window</button>
+				</div>
+				<div id="top_param_forms" class="outer_center">
+					<div id="login_form" class="inner_center left_form">
+						<h3>Login</h3>
+						<ul>
+							<li><label>Username:</label><input id="login.username" type="text" size="40" value="sbristow"/></li>
+							<li><label>Password:</label><input id="login.password" type="text" size="40" value="Palm3rel"/></li>
+						</ul>
+					</div>
+					<div id="get_time_form" class="inner_center right_form">
+						<h3>Get Time</h3>
+						<ul>
+							<li><label>Token:</label><input id="get_time.token" type="text" size="40" value=""/></li>
+							<li><label>Timesheet Start Date (dd/mm/yyyy):</label><input id="get_time.start_date" type="text" size="40" value=""/></li>
+						</ul>
+					</div>
+				</div>
+			 </div>
+		</div>
+		<div class="outer_center separator">Timesheet</div>
+		<div id="content"></div>
+	</body>
+</html>
