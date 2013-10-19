@@ -1,0 +1,15 @@
+Unit tests
+
+- Main test is to build a timesheet given a particular JSON object.
+- Use a dummy JSON object to build the timesheet
+
+
+
+- Variety of cases with assignments, time entries
+
+
+MAIN ACTIONS:
+
+1) Read timesheet.
+
+"I want to build a timesheet from the Tenrox JSON response and render it in browser"

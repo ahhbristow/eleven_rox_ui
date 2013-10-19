@@ -26,6 +26,12 @@ function go_timesheet() {
 	get_timesheet();
 }
 
+function get_timesheet_template() {
+	// We should show the loading screen whilst waiting
+	view_player = new Views();
+	view_player.play_timesheet_template();
+}
+
 
 function get_element(id) {
 	var element = jQuery('#' + id);
@@ -88,7 +94,8 @@ function get_timesheet_callback(_resp) {
 	}
 
 	view_player = new Views();
-	view_player.timesheet_view(timesheet);
+	//view_player.timesheet_view(timesheet);
+	view_player.play_timesheet_template(timesheet);
 };
 
 

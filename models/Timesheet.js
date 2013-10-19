@@ -10,6 +10,8 @@ function Timesheet(model) {
 	this.assignments = [];
 	this.projects = new Object();
 
+	this.name = "TIMESHEET"
+
 }
 
 

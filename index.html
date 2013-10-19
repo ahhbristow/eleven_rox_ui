@@ -8,8 +8,11 @@
 		<script type="text/javascript" language="Javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
 		<script type="text/javascript" language="Javascript" src="jsonreport.js"></script>
 		<script type="text/javascript" language="Javascript" src="test.js"></script>
-		<script type="text/javascript" language="Javascript" src="uniform/jquery.uniform.js"></script>
+		<!--<script type="text/javascript" language="Javascript" src="uniform/jquery.uniform.js"></script>-->
 		<script type="text/javascript" language="Javascript" src="hex_tenrox.js"></script>
+		<script type="text/javascript" language="Javascript" src="includes/handlebars.js"></script>
+		
+		
 		
 		
 		
@@ -22,12 +25,13 @@
 
 
 		<script type="text/javascript">
-			jQuery(function(){
-				jQuery("input, textarea, select, button").uniform();
-			});
+			//jQuery(function(){
+			//	jQuery("input, textarea, select, button").uniform();
+			//});
 		</script>
 	</head>
 	<body>
+
 		<div id="top">
 			<div id="mask"></div>
 			<h1>ElevenRox Test Harness</h1>
@@ -56,7 +60,7 @@
 						<ul>
 							<li><label>Token:</label><input id="get_time.token" type="text" size="40" value=""/></li>
 							<li><label>Timesheet Start Date (dd/mm/yyyy):</label><input id="get_time.start_date" type="text" size="40" value=""/></li>
-						</ul>
+					  </ul>
 					</div>
 				</div>
 			 </div>

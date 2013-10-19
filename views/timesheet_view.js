@@ -152,11 +152,28 @@ Views.prototype.play_assignment = function(assignment) {
 	return html;
 }
 
+
+
 Views.prototype.play_time_entry = function(time_entry) {
 	var html = '';
 	html += '<div class="time_entry">';
-	html += 'TIME ENTRY';
+	html += '<p>' + time_entry.regular_time + '</p>';
 	html += '</div>';
 
 	return html;
+}
+
+
+
+
+Views.prototype.play_timesheet_template = function(timesheet) {
+
+	// Get template and render
+	var view_player = this;
+	jQuery.get( "views/timesheet_template.html", function( template_source ) {
+		var template = Handlebars.compile(template_source);
+		$("content").innerHTML = template(timesheet);
+	
+		view_player.register_events();
+	});
 }
