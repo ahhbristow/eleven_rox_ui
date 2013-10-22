@@ -1,65 +1,111 @@
-// Timesheet is a collection of assignments
+// Timesheet is a collection of TimeEntries
 
-function Timesheet(model) {
+function Timesheet(json) {
 
+	for (element_key in json) {
+		this[element_key] = json[element_key];
+	}
 
-	// Store the raw JSON because it's useful
-	this.model = model;
-
-	// Private member variables
-	this.assignments = [];
-	this.projects = new Object();
-
-	this.name = "TIMESHEET"
+	this.intervals = this.build_intervals();
+	//this.intervals = this.build_time_entries(this.timeentries, this.intervals);
 
 }
-
-
-
-// ======== Getters/Setters ==============
-Timesheet.prototype.get_assignments = function() {return this.assignments}
-
 
 // ======== Methods =======================
 
-Timesheet.prototype.get_timesheet = function(token) {
 
-}
+// This timesheet could have any number of days depending
+// on the start_time and end_time.
+//
+// Returns an object that represents the intervals.  A single
+// time entry can be linked to each one
+Timesheet.prototype.build_intervals = function() {
 
-Timesheet.prototype.add_assignment = function(assignment) {
+	var timesheet_start_date = moment(this.start_date, 'DD-MM-YYYY');
+	var timesheet_end_date   = moment(this.end_date, 'DD-MM-YYYY');
 
-	var project_id = assignment.project_id;
-
-	// If this project already exists, add this assignment to it
+	var intervals = new Object();
+	var current_date = timesheet_start_date;
 	
-	var project;
-	if(!this.projects[project_id]) {
-		// Create new project
-		project = new Object();
-		project.assignments = [];
-		project.id = project_id;
-		project.has_time_entries = 0;
+	while (current_date.isBefore(timesheet_end_date)) {
 
-		this.projects[project_id] = project;
-	} else {
-		// Read existing project
-		project = this.projects[project_id];
-	}
-	project.assignments.push(assignment);
-
-	// Check if this project has a time entry
-	if (assignment.has_time_entries) {
-		project.has_time_entries = 1;
+		var interval = {
+		   "day": "Day Name",
+		   "interval_date": current_date.format("DD-MM-YYYY"),
+		   "time_id": "1",
+			 "time_entries": []
+		};
+		intervals[current_date.format("DD-MM-YYYY")] = interval;
+		current_date.add('days', 1);
 	}
 
-	this.assignments.push(assignment);
-}
-
-Timesheet.prototype.add_time_entry = function(time_entry) {
+	return intervals;
 
 }
 
+// Associate a set of time entries with an interval.
+// Each interval can have multiple time entries
+// 
+// TODO: Is this passed by ref?  Just return anyway
+Timesheet.prototype.build_time_entries = function(time_entries, intervals) {
 
-// ========== View functions ===============
+	for (time_entry_key in time_entries) {
+		var time_entry = time_entries[time_entry_key];
+		var entry_date = time_entry['entry_date'];
 
-Timesheet.prototype.build_dom = function() {}
+		// If this date doesn't exist, create it
+		if(!intervals[entry_date]) {
+
+			// Create new interval
+			var interval = {
+			   "day": "Day Name",
+			   "interval_date": entry_date,
+				 "time_entries": []
+			};
+
+			// Add new interval
+			intervals[entry_date] = interval;
+		}
+		
+		// add time entry to this interval
+		intervals[entry_date]['time_entries'].push(time_entry);
+	}
+
+	return intervals;
+}
+
+// Search for assignment
+// Returns null if doesn't exist
+Timesheet.prototype.get_assignment = function(assignment_id) {
+
+	var assignments = this.assignments;
+	for (var i = 0; i < assignments.length; i++) {
+		if (assignments[i].assignment_id == assignment_id) {
+			return assignment;
+		}
+	}
+	
+	return null;
+}
+
+
+
+// Returns all the time entries for a particular assignment_id
+Timesheet.prototype.get_time_entries = function(assignment_id) {
+	
+	var assignment_time_entries = [];
+
+	// Scan over the time entries
+	var time_entries = this.timeentries;
+	for (var i = 0; i < time_entries.length; i++) {
+		var time_entry = time_entries[i];
+
+		// Check if this is the assignment we want
+		if (time_entry.assignment_id == assignment_id) {
+			assignment_time_entries.push(time_entry);
+		}
+	}
+
+	return assignment_time_entries;
+
+}

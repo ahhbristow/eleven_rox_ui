@@ -4,6 +4,28 @@ function Views() {
 }
 
 
+Views.prototype.play_debug = function(timesheet) {
+
+	// Add debug control separator to the DOM
+	var timesheet_debug_separator = jQuery('<div class="separator"><a id="toggle_timesheet_debug" class="button">Show Debug</a></div>');
+	jQuery('#content').append(timesheet_debug_separator);
+	
+
+	// Create toggle display function
+	jQuery('#toggle_timesheet_debug').click(function() {
+		console.log("Toggling timesheet debug");
+		jQuery('#timesheet_debug').toggle();
+	});
+
+
+	var timesheet_debug = jQuery('<div id="timesheet_debug"></div>').hide();
+	// Create inner HTML for debug
+	debug_html = '';
+	debug_html += val(timesheet.model);
+
+	return debug_html;
+}
+
 Views.prototype.timesheet_view = function(timesheet) {
 
 	console.log("Rendering timesheet");
@@ -15,25 +37,7 @@ Views.prototype.timesheet_view = function(timesheet) {
 	// DEBUG: Show the raw JSON
 	var debug = 1;
 	if (debug) {
-		
-		// Add debug control separator to the DOM
-		var timesheet_debug_separator = jQuery('<div class="separator"><a id="toggle_timesheet_debug" class="button">Show Debug</a></div>');
-		jQuery('#content').append(timesheet_debug_separator);
-		
-		// Create toggle display function
-		jQuery('#toggle_timesheet_debug').click(function() {
-			console.log("Toggling timesheet debug");
-			jQuery('#timesheet_debug').toggle();
-		});
-
-		var timesheet_debug = jQuery('<div id="timesheet_debug"></div>').hide();
-		// Create inner HTML for debug
-		debug_html = '';
-		debug_html += val(timesheet.model);
-
-		// Add debug object to DOM
-		jQuery(timesheet_debug).append(debug_html);
-		jQuery('#content').append(timesheet_debug);
+		this.play_debug(timesheet);
 	}
 
 
@@ -170,9 +174,19 @@ Views.prototype.play_timesheet_template = function(timesheet) {
 
 	// Get template and render
 	var view_player = this;
+
 	jQuery.get( "views/timesheet_template.html", function( template_source ) {
+
+		// Generate HTML from template
 		var template = Handlebars.compile(template_source);
-		$("content").innerHTML = template(timesheet);
+
+		// Generate debug HTML
+		var debug_html = view_player.play_debug(timesheet);
+
+		// Inject into the DOM
+		jQuery('#content').html("");
+		jQuery('#content').append(debug_html);
+		jQuery("#content").append(template(timesheet));
 	
 		view_player.register_events();
 	});

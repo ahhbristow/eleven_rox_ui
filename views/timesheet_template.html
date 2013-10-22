@@ -1,41 +1,26 @@
 <div>
-Timesheet name: {{name}}
+	<div id="projects">
+		
+		{{#each current_projects}}
+		<div class="project">
+			<p>Project: {{this.project_name}}</p>
+				
+				<div class="assignments">
+					{{#each this.assignments}}
+					<p>Assignment ID: {{this.assignment_id}}</p>
+					<p>Assignment Name: {{this.assignment_name}}</p>
 
+					<div class="time_entries">
+						{{#each time_entries}}
+						<p class="time_entry">{{this.time}}</p>
+						<p class="day">{{this.day}}</p>
+						{{/each}}
+					</div>
 
-	<div class="projects">
-
-		{{#each projects}}
-		<div id="project_{{this.project_id}}" class="project clearfix">
-			<a class="project_expand"><span>+<span></a>
-			<input class="hidden_project_id" type="hidden" value="{{this.project_id}}" />
-			<p class="project_id">Project ID: {{this.project_id}}</p>
-
-
-			<div class="assignments">
-				<table>
-					<thead>
-						<tr>
-							<th>Assignment</th>
-							<th>Mon</th>
-							<th>Tues</th>
-							<th>Wed</th>
-							<th>Thurs</th>
-							<th>Fri</th>
-							<th>Assignment</th>
-						</tr>
-					</thead>
-				{{#each this.assignments}}
-				<div class="assignment">{{this.project_id}}</div>
-				{{/each}}
-				</table>
-			</div>
-
-			
+					{{/each}}
+				</div>
 		</div>
 		{{/each}}
 
-
 	</div>
-
-
 </div>
