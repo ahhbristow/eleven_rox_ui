@@ -1,26 +1,72 @@
 <div>
-	<div id="projects">
-		
-		{{#each current_projects}}
+	<div class="separator">Open Projects</div>
+
+
+	<div id="open_projects">
+		{{#each open_projects}}
 		<div class="project">
 			<p>Project: {{this.project_name}}</p>
 				
 				<div class="assignments">
-					{{#each this.assignments}}
-					<p>Assignment ID: {{this.assignment_id}}</p>
-					<p>Assignment Name: {{this.assignment_name}}</p>
+				<table>
 
-					<div class="time_entries">
-						{{#each time_entries}}
-						<p class="time_entry">{{this.time}}</p>
-						<p class="day">{{this.day}}</p>
+					<tr>
+						<th>Assignment</th>
+						{{#each ../intervals}}
+						<th>{{this.day_name}}<th>
 						{{/each}}
-					</div>
+					</tr>
+
+					{{#each this.assignments}}
+					<tr>
+						<td><p>Assignment Name: {{this.assignment_name}}</p></td>
+						
+						{{#each this.time_entries}}
+						<td>
+							<span>{{this.time}}<span>
+						</td>
+						{{/each}}
+					</tr>
 
 					{{/each}}
+				</table>
+		</div>
+		{{/each}}
+	</div>
+
+	<div class="separator">All Projects</div>
+
+	<div id="available_projects">
+		{{#each available_projects}}
+		<div class="project">
+			<p>Project: {{this.project_name}}</p>
+			
+				<div class="assignments hidden">
+				<table>
+
+					<tr>
+						<th>Assignment</th>
+						{{#each ../intervals}}
+						<th>{{this.day_name}}<th>
+						{{/each}}
+					</tr>
+
+					{{#each this.assignments}}
+					<tr>
+						<td><p>Assignment Name: {{this.assignment_name}}</p></td>
+						
+						{{#each this.time_entries}}
+						<td>
+							<span>{{this.time}}<span>
+						</td>
+						{{/each}}
+					</tr>
+
+					{{/each}}
+				</table>
 				</div>
 		</div>
 		{{/each}}
-
 	</div>
+
 </div>

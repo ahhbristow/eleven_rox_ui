@@ -30,12 +30,9 @@ Timesheet.prototype.build_intervals = function() {
 	while (current_date.isBefore(timesheet_end_date)) {
 
 		var interval = {
-		   "day": "Day Name",
-		   "interval_date": current_date.format("DD-MM-YYYY"),
-		   "time_id": "1",
-			 "time_entries": []
+			 "day_name": current_date.format('ddd')
 		};
-		intervals[current_date.format("DD-MM-YYYY")] = interval;
+		intervals[current_date.format("DD/MM/YYYY")] = interval;
 		current_date.add('days', 1);
 	}
 

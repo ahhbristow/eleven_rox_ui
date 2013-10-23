@@ -87,9 +87,14 @@ function bind_timesheet(timesheet) {
 	var time_entries  = timesheet.time_entries;
 	var assignments   = timesheet.assignments;
 
+	// Bind the intervals.  Used for displaying table headers
+	timesheet_obj.intervals = timesheet.intervals;
+
 	// Generate current projects
-	var current_projects = new Object();
-	timesheet_obj.current_projects = current_projects;
+	var available_projects = new Object();
+	var open_projects      = new Object();
+	timesheet_obj.available_projects = available_projects;
+	timesheet_obj.open_projects      = open_projects;
 
 	// For each assignment, build projects, assignments and time entries
 	for (var i = 0; i < assignments.length; i++) {
@@ -97,21 +102,26 @@ function bind_timesheet(timesheet) {
 		// Bind up the information inside the assignment
 		var assignment = bind_assignment(timesheet, assignments[i]);
 
-
 		// If we haven't seen this project before, init it
 		var project_id = assignment.project_id;
-		if(!current_projects[project_id]) {
-			var project = {
+		var project = available_projects[project_id];
+
+		if(!project) {
+			project = {
 				"project_id": project_id,
 				"project_name": assignment.project_name,
 			}
 			project.assignments = new Object();
-			// Add project to current projects
-			current_projects[project_id] = project;
+			available_projects[project_id] = project;
 		}
 
 		// Add this assignment to the project
-		current_projects[project_id].assignments[assignment.assignment_id] = assignment;
+		project.assignments[assignment.assignment_id] = assignment;
+
+		// If this assignment has time entries, add to current project
+		if (assignment.has_time) {
+			open_projects[project_id] = project;
+		}
 	}
 
 	return timesheet_obj;
@@ -125,9 +135,12 @@ function bind_assignment(timesheet, assignment) {
 	// Init the time entries to empty for this assignment
 	assignment.time_entries = new Object();
 	var intervals = timesheet.intervals;
+
+	// Key is date string DD/MM/YYYY
 	for (interval_key in intervals) {
 		var interval = intervals[interval_key];
-		assignment.time_entries[interval.interval_date] = "";
+
+		assignment.time_entries[interval_key] = "";
 	}
 		
 	// Check if we have any time entries to add
